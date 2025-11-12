@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TodoService {
@@ -18,11 +18,28 @@ export class TodoService {
     return this.todos.find((todo) => todo.name === title);
   }
 
-  update() {
+  update(title: string, body: any) {
+    const index = this.todos.findIndex((todo) => todo.name === title);
 
+    if (index < 0) {
+      throw new HttpException('Not found', 404);
+    }
+
+    this.todos[index] = body;
+
+    return this.todos[index];
   }
 
-  delete(){
+  delete(title: string) {
+    const index = this.todos.findIndex((todo) => todo.name === title);
 
+    if (index < 0) {
+      throw new HttpException('Not found', 404);
+    }
+
+    this.todos.splice(index,1);
+
+
+    return this.todos;
   }
 }

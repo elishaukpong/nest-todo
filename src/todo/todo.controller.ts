@@ -22,13 +22,13 @@ export class TodoController {
     return this.todoService.getOne(title);
   }
 
-  @Patch()
-  update() {
-    return this.todoService.update();
+  @Patch(':id')
+  update(@Param('id') title: string, @Body() body: any) {
+    return this.todoService.update(title, body);
   }
 
-  @Delete()
-  destroy() {
-    this.todoService.delete();
+  @Delete(':id')
+  destroy(@Param('id') title: string) {
+    this.todoService.delete(title);
   }
 }
